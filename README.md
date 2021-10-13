@@ -37,4 +37,3 @@ We are expected to predict the total cloud coverage as a percentage of the open 
 
 #### Reference Links
 - [Feature Reference - Solar Glossary](https://www.nrel.gov/grid/solar-resource/solar-glossary.html)
-- - 
