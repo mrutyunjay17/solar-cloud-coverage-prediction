@@ -1,6 +1,7 @@
 # Shell AI Hackathon
 
 [View Challange Specifications](https://www.hackerearth.com/challenges/competitive/shell-ai-hackathon-2021/)  
+[Dataset](https://he-public-data.s3.ap-southeast-1.amazonaws.com/shell_dataset.zip)
 
 Solar power is one of the fastest-growing renewable energy sources. Global solar photovoltaic (PV) generation is now almost 3% of the total electricity mix and will increase by 15% annually, from 720 TWh in 2019 to almost 3,300 TWh in 2030.  
 
@@ -16,11 +17,14 @@ Cloud coverage remains one of the big risk factors. For example, opaque clouds o
 The main challenge is to forecast solar irradiance for a specific region of interest given local weather conditions and sky camera images. The problem is divided into 2 levels.&nbsp; As irradiance has a high correlation with cloud coverage the first level of the hackathon is to forecast cloud coverage. In the second level, you will be asked to tackle the complex challenge of predicting solar irradiance to improve the quality of short-term power forecasts.  
 
 #### Level 1:  Predict cloud coverage  
-##### Predict the percentage of total cloud coverage for the next upcoming intervals using the available weather and sky camera data.  
+#### Predict the percentage of total cloud coverage for the next upcoming intervals using the available weather and sky camera data.
 
-Predicting cloud cover in a short time span of 120 minutes is very challenging.  
-On this time scale, changes in local cloud cover are driven by a combination of dynamical and physical parameters such as wind speed, wind direction sea-level pressure, humidity, and temperature over the asset of our interest.  
+![image](https://user-images.githubusercontent.com/32392924/137149765-f429108e-aaf5-4820-bdc3-9b7499b32c7a.png)
+
+Predicting cloud cover in a short time span of 120 minutes is very challenging. On this time scale, changes in local cloud cover are driven by a combination of dynamical and physical parameters such as wind speed, wind direction sea-level pressure, humidity, and temperature over the asset of our interest.  
+
 Short interval cloud cover prediction requires accurate estimates of cloud motion and presence using weather data and sky camera images or physics-based&nbsp;weather models or a combination of both.  
+
 We are expected to predict the total cloud coverage as a percentage of the open sky for a fixed field of view at 4 horizon intervals of 30, 60, 90, and 120 minutes from a 6-hour window of historical data.
 
 
@@ -33,3 +37,4 @@ We are expected to predict the total cloud coverage as a percentage of the open 
 
 #### Reference Links
 - [Feature Reference - Solar Glossary](https://www.nrel.gov/grid/solar-resource/solar-glossary.html)
+- - 
