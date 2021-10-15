@@ -9,7 +9,7 @@
   
 ## Solar Irradiance 
 The amount of solar energy that arrives at a specific area of a surface during a specific time interval (radiant flux density).
-- A typical unit is $W/m^2$.
+- A typical unit is W/m^2 .
 - It includes visible light as well as non visible parts of spectrum.
 - It can reach us by directly, filtered by the clouds, scattered by the atmosphere, reflected by the ground surface.
   
@@ -25,7 +25,7 @@ Date and time. Time was measured in 1 min frequency.
 ### Global CMP22 (vent/cor) [W/m^2]
 Pyranometer measurements.  
 **Pyranometer** - An instrument with a hemispherical field of view, used for measuring total or global solar radiation, specifically global horizontal radiation; a pyranometer with a shadow band or shading disk blocking the direct beam measures the diffuse sky radiation.
-- It has $180^{\circ}$ field of view angle.
+- It has 180 degrees field of view angle.
 - Solar energy flux varies with the cosine of angle of incidace of radiation. 
 - With due and frost deposited on these instruments, we get unreliable data. So they are usually heated.
 - Pyraheliometers in combination with Pyranometers are used to monitor the performance of photovoltaic (PV) power plants, by comparing actual output the PV power plant to the expected output based on solar radiation data to calcualte efficiency of the PV power plants.
