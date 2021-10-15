@@ -21,6 +21,7 @@ It is the sum of the time intervals (in hours) during which the direct normal so
 ## Weather Data Features
 ### DATE (MM/DD) and MST
 Date and time. Time was measured in 1 min frequency.
+- We don't have year information for Date and time provided.
     
 ### Global CMP22 (vent/cor) [W/m^2]
 Pyranometer measurements.  
@@ -60,7 +61,8 @@ The temperature at which the water in the atmosphere will condense as drops on a
     
   
 ### Tower RH [%]
-???
+Tower Relative Humidity.
+- Humidity readily affects the efficiency of the solar cells and creates a minimal layer of water on its surface. It also decreases the efficiency by 10-20% of the total power output produced
   
   
 ### Total Cloud Cover [%]
