@@ -47,7 +47,7 @@ Wind speed usually measured by Anemometer
 Atmospheric Pressure. The pressure (force per area) created by the weight of the atmosphere.
 - At higher elevations, the atmospheric pressure is lower because there is less air.
     
-#### Precipitation (Accumulated) [mm]<sup>[2](#2.-Precipitable-Water)</sup>
+#### Precipitation (Accumulated) [mm]<sup>[2](#2-Precipitable-Water)</sup>
 Amount of Precipitable Water. The amount of water in a vertical column of atmosphere.
 - The unit of measure is typically the depth to which the water would fill the vertical column if it were condensed to a liquid. For example, 6 centimeters of precipitable water (in the absence of clouds) indicates a very moist atmosphere.
 - Precipitable water is often used as a synonym for water vapor
