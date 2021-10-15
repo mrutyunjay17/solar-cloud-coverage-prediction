@@ -5,37 +5,62 @@
 - Depending on the month of the year and availability of camera, number of images can be flexible. 
 - Mostly the images are from sunrise to sunset.
 - Test set folder will not mention any date. So we have to make a general model based on a balanced dataset throughout the year.
-
+  
+  
+## Solar Irradiance 
+The amount of solar energy that arrives at a specific area of a surface during a specific time interval (radiant flux density).
+- A typical unit is $W/m^2$.
+- It includes visible light as well as non visible parts of spectrum.
+- It can reach us by directly, filtered by the clouds, scattered by the atmosphere, reflected by the ground surface.
+  
+  
+## Sunshine Hours
+It is the sum of the time intervals (in hours) during which the direct normal solar irradiance exceeds a threshold of 120 W/m².
+  
+  
 ## Weather Data Features
 ### DATE (MM/DD) and MST
-Date and time. Time was measured in 1 min frequency
+Date and time. Time was measured in 1 min frequency.
     
 ### Global CMP22 (vent/cor) [W/m^2]
-
-  
+Pyranometer measurements.  
+**Pyranometer** - An instrument with a hemispherical field of view, used for measuring total or global solar radiation, specifically global horizontal radiation; a pyranometer with a shadow band or shading disk blocking the direct beam measures the diffuse sky radiation.
+- It has $180^{\circ}$ field of view angle.
+- Solar energy flux varies with the cosine of angle of incidace of radiation. 
+- With due and frost deposited on these instruments, we get unreliable data. So they are usually heated.
+- Pyraheliometers in combination with Pyranometers are used to monitor the performance of photovoltaic (PV) power plants, by comparing actual output the PV power plant to the expected output based on solar radiation data to calcualte efficiency of the PV power plants.
   
 ### Direct sNIP [W/m^2]
-    
-  
+Measurements by Pyroheliometer.  
+**Normal Incidence Pyroheliometer** - It measures solar irradiance coming directly from the sun.
+- Pyrheliometers measure direct solar radiation or called *Direct Normal Irradiance*.
+- Due to large zero offsets and directional errors in pyranometers, pyroheliometer measuresments are supposed to be more accurate than pyranometers.
+- Pyraheliometers in combination with Pyranometers are used to monitor the performance of photovoltaic (PV) power plants, by comparing actual output the PV power plant to the expected output based on solar radiation data to calcualte efficiency of the PV power plants.
+
+
   
 ### Azimuth Angle [degrees]
 The angle between the horizontal direction (of the sun, for example) and a reference direction (usually north, although some solar scientists measure the solar azimuth angle from due south)
   
   
-### Tower Dry Bulb Temp [deg C]
   
+### Tower Dry Bulb Temp [deg C]
+Air temperature measured with a thermometer, similar to ambient temperature. 
+- The term "dry-bulb" distinguishes it from the wet-bulb temperature measured by a psychrometer to determine relative humidity.
+- Wet-bulb temperature and Dry-bulb temperature are used to compute relative humidity.  
   
   
 ### Tower Wet Bulb Temp [deg C]
+It is the temperature to which air will cool when water is evaporated into unsaturated air measured by a wet-bulb thermometer, which has a wet cloth sleeve that covers its bulb.
+- Wet-bulb temperature and Dry-bulb temperature are used to compute relative humidity.  
 
   
-  
 ### Tower Dew Point Temp [deg C]
+The temperature at which the water in the atmosphere will condense as drops on a surface.
     
-  
   
 ### Tower RH [%]
-    
+???
   
   
 ### Total Cloud Cover [%]
@@ -49,7 +74,7 @@ Wind speed usually measured by Anemometer
   
   
 ### Avg Wind Direction @ 6ft [deg from N]
-    
+The average wind direction is the arctan of the east/west components divided by the north south components measured in degrees or radians.   
   
   
 ### Station Pressure [mBar]
@@ -65,18 +90,20 @@ Amount of Precipitable Water. The amount of water in a vertical column of atmosp
   
   
 ### Snow Depth [cm]
-    
+If the surface of a PV module is not cleaned and free to capture solar irradiation, the system's perfromance can be highly compromised.
   
   
-### Moisture 
-    
+### Moisture<sup>[2](#2-Precipitable-Water)</sup>
+Moisture is the presence of a liquid, especially water, often in trace amounts. 
   
   
 ### Albedo (CMP11)
-This is the measurement of global and reflected solar raditon.
+Albedometer Measurements.  
+**Albedometer** - Measurement of global and reflected solar radiation.
 - Solar albedo, or solar reflectance or solar reflectance, is defined as the ratio of the reflected to the global radiation.
     
     
 ## Reference Links
 <h5 style="font-weight: normal">1. <a href="https://www.nrel.gov/grid/solar-resource/solar-glossary.html">Solar Research Glossary</a></h5>
 <h5 style="font-weight: normal">2. <a href="https://www.sciencedirect.com/topics/earth-and-planetary-sciences/precipitable-water">Precipitable Water</a></h5>
+<h5 style="font-weight: normal">1. <a href="https://ntnuopen.ntnu.no/ntnu-xmlui/bitstream/handle/11250/2416078/15971_FULLTEXT.pdf?sequence=1">Snow and Ice Photovoltaic Devices</a></h5>

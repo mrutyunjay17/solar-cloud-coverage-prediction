@@ -46,5 +46,5 @@ The metric to evaluate the perfromance of solution will be MAD (Mean Absolute De
 - The output format will have five columns – scenario_set, 30_min_horizon, 60_min_horizon, 90_min_horizon and 120_min_horizon.  
 - The first row of the csv file should be column names followed by 300 rows of predictions for percentage of total cloud cover for 300 scenario sets provided.  - You will not have to submit your code files. A sample submission csv file has been provided for guidance.  
 
-#### References
-View [**Documentation.md**](https://github.com/mrutyunjay17/solar-power-prediction/blob/main/Documentation.md) for more information and references.
+### References
+View [**Documentation**](https://github.com/mrutyunjay17/solar-power-prediction/blob/main/Documentation.md) for more information and references.
