@@ -89,7 +89,7 @@ Amount of Precipitable Water. The amount of water in a vertical column of atmosp
 - Derived by integrating atmospheric column moisture.
   
   
-### Snow Depth [cm]
+### Snow Depth [cm]<sup>[3](#3-Snow-And-Ice-Photovoltaic-Devices)</sup>
 If the surface of a PV module is not cleaned and free to capture solar irradiation, the system's perfromance can be highly compromised.
   
   
@@ -106,4 +106,4 @@ Albedometer Measurements.
 ## Reference Links
 <h5 style="font-weight: normal">1. <a href="https://www.nrel.gov/grid/solar-resource/solar-glossary.html">Solar Research Glossary</a></h5>
 <h5 style="font-weight: normal">2. <a href="https://www.sciencedirect.com/topics/earth-and-planetary-sciences/precipitable-water">Precipitable Water</a></h5>
-<h5 style="font-weight: normal">1. <a href="https://ntnuopen.ntnu.no/ntnu-xmlui/bitstream/handle/11250/2416078/15971_FULLTEXT.pdf?sequence=1">Snow and Ice Photovoltaic Devices</a></h5>
+<h5 style="font-weight: normal">3. <a href="https://ntnuopen.ntnu.no/ntnu-xmlui/bitstream/handle/11250/2416078/15971_FULLTEXT.pdf?sequence=1">Snow and Ice Photovoltaic Devices</a></h5>
