@@ -5,3 +5,5 @@ dataset/*
 .ipynb_checkpoints/data_analysis-checkpoint.ipynb
 .ipynb_checkpoints/Documentation-checkpoint.md
 df_aug_1.csv
+df_0802.csv
+.ipynb_checkpoints/test-checkpoint.ipynb
