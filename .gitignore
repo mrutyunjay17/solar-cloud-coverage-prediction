@@ -7,3 +7,7 @@ dataset/*
 df_aug_1.csv
 df_0802.csv
 .ipynb_checkpoints/test-checkpoint.ipynb
+.ipynb_checkpoints/data_wrangling-checkpoint.py
+.ipynb_checkpoints/experiment_1-checkpoint.ipynb
+__pycache__/data_wrangling.cpython-37.pyc
+__pycache__/weather_data_manipulations.cpython-37.pyc
