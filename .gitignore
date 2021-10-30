@@ -16,3 +16,4 @@ __pycache__/utility.cpython-37.pyc
 ~$experiment_logs.xlsx
 models/*
 .ipynb_checkpoints/experiment_quick-checkpoint.ipynb
+.ipynb_checkpoints/experiment_full-checkpoint.ipynb
