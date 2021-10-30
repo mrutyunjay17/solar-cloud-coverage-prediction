@@ -14,3 +14,5 @@ __pycache__/weather_data_manipulations.cpython-37.pyc
 .ipynb_checkpoints/utility-checkpoint.py
 __pycache__/utility.cpython-37.pyc
 ~$experiment_logs.xlsx
+models/*
+.ipynb_checkpoints/experiment_quick-checkpoint.ipynb

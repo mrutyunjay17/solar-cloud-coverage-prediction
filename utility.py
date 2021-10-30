@@ -90,7 +90,7 @@ def replace_false_cloud_coverage_with_previous(weather_df):
 
 def get_month_day_pairing(weather_df):
     weather_dict_keys = weather_df.groupby([weather_df.index.month, weather_df.index.day ]).groups.keys()
-    return [key for key in weather_dict_keys]
+    return list(weather_dict_keys)
 
 def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 	"""
