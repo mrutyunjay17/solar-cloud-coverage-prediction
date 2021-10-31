@@ -1,9 +1,12 @@
 import pandas as pd
+import numpy as np
 import os
+import math
 
 DEFAULT_PATH_FOLDER_DATASET = "dataset"
 DEFAULT_PATH_FOLDER_TRAINING = os.path.join(DEFAULT_PATH_FOLDER_DATASET,"train")
 PRED_TIME_INTERVALS_MINS = [10, 20, 30]
+EXPERIEMENT_SEED = 42
 
 CUSTOM_FEATURE_NAMES = {
     'DATE (MM/DD)':'date',
@@ -25,43 +28,18 @@ CUSTOM_FEATURE_NAMES = {
     'Albedo (CMP11)':'albedometer'
 }
 
-def load_dataset(folder_path = DEFAULT_PATH_FOLDER_TRAINING, csv_dataset_name = "train.csv"):
+def __load_dataset(folder_path = DEFAULT_PATH_FOLDER_TRAINING, csv_dataset_name = "train.csv"):
     '''
         Loads the csv dataset from given folder_path and csv_dataset_file
     '''
     weather_df = pd.read_csv(os.path.join(folder_path, csv_dataset_name))
     return weather_df
 
-def get_processed_dataset(weather_df = None, folder_path = DEFAULT_PATH_FOLDER_TRAINING, csv_dataset_name = "train.csv"):
-    
-    '''
-        Get pre-processed weather datset according to data analysis.
-        Arguments:
-            weather_df  : The dataframe will get processed for further ETL operations if provided, 
-                    or else provide csv dataset path to load
-            folder_path : (Optional) if weather_df = None, then this parameter can be used to load the dataset manually
-            csv_dataset_name : (Optional) if weather_df = None, then this parameter can be used to load the dataset manually
-        Returns:
-            Pandas Dataframe with indexed with datetime 
-    '''
-    
-    if(weather_df == None):
-        weather_df = load_dataset(folder_path, csv_dataset_name)
-    
-    #Renames according to default column names
-    weather_df = rename_columns(weather_df)
-    #Add and index dataset by datetime column
-    weather_df = add_datetime_column(weather_df)
-    weather_df.set_index('datetime', inplace=True)
-    #Handle wrongly labelled data
-    weather_df = replace_false_cloud_coverage_with_previous(weather_df)
-    return weather_df
-
-def rename_columns(weather_df, column_mappings = CUSTOM_FEATURE_NAMES):    
+def __rename_columns(weather_df, column_mappings = CUSTOM_FEATURE_NAMES):    
     weather_df = weather_df.rename(columns=column_mappings)
     return weather_df
 
-def add_datetime_column(weather_df):
+def __add_datetime_column(weather_df):
     column_name = 'datetime'
     column_name_cpy = 'datetime_cpy'
     
@@ -77,7 +55,7 @@ def add_datetime_column(weather_df):
     return weather_df
 
 
-def replace_false_cloud_coverage_with_previous(weather_df):
+def __replace_false_cloud_coverage_with_previous(weather_df):
     '''
         Handle Wrongly labelled data
         Replace total_cloud_coverage_pct < -1 with it's previous minute readings.
@@ -88,72 +66,148 @@ def replace_false_cloud_coverage_with_previous(weather_df):
                                                 .ffill().astype(int)
     return weather_df
 
-def get_month_day_pairing(weather_df):
+def get_processed_dataset(weather_df = None, folder_path = DEFAULT_PATH_FOLDER_TRAINING, csv_dataset_name = "train.csv"):
+    
+    '''
+        Returns pre-processed weather datset with 
+        - Renamed Columns
+        - Assigned datetime as index and datetime_copy column
+        - Handled Falsely Recorded Cloud coverages
+        
+        Arguments:
+            weather_df  : The dataframe will get processed for further ETL operations if provided, 
+                    or else provide csv dataset path to load
+            folder_path : (Optional) if weather_df = None, then this parameter can be used to load the dataset manually
+            csv_dataset_name : (Optional) if weather_df = None, then this parameter can be used to load the dataset manually
+        Returns:
+            Pandas Dataframe with indexed with datetime 
+    '''
+    
+    if(weather_df == None):
+        weather_df = __load_dataset(folder_path, csv_dataset_name)
+    
+    #Renames according to default column names
+    weather_df = __rename_columns(weather_df)
+    #Add and index dataset by datetime column
+    weather_df = __add_datetime_column(weather_df)
+    weather_df.set_index('datetime', inplace=True)
+    #Handle wrongly labelled data
+    weather_df = __replace_false_cloud_coverage_with_previous(weather_df)
+    return weather_df
+
+def __get_month_day_pairing(weather_df):
+    '''
+        Returns (Month,Day) pairs present in dataset
+    '''
     weather_dict_keys = weather_df.groupby([weather_df.index.month, weather_df.index.day ]).groups.keys()
     return list(weather_dict_keys)
 
-def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
-	"""
-	Frame a time series as a supervised learning dataset.
-	Arguments:
-		data: Sequence of observations as a list or NumPy array.
-		n_in: Number of lag observations as input (X).
-		n_out: Number of observations as output (y).
-		dropnan: Boolean whether or not to drop rows with NaN values.
-	Returns:
-		Pandas DataFrame of series framed for supervised learning.
-	"""
-	n_vars = 1 if type(data) is list else data.shape[1]
-	df = pd.DataFrame(data)
-	cols, names = list(), list()
-	# input sequence (t-n, ... t-1)
-	for i in range(n_in, 0, -1):
-		cols.append(df.shift(i))
-		names += [('var%d(t-%d)' % (j+1, i)) for j in range(n_vars)]
-	# forecast sequence (t, t+1, ... t+n)
-	for i in range(0, n_out):
-		cols.append(df.shift(-i))
-		if i == 0:
-			names += [('var%d(t)' % (j+1)) for j in range(n_vars)]
-		else:
-			names += [('var%d(t+%d)' % (j+1, i)) for j in range(n_vars)]
-	# put it all together
-	agg = pd.concat(cols, axis=1)
-	agg.columns = names
-	# drop rows with NaN values
-	if dropnan:
-		agg.dropna(inplace=True)
-	return agg
+def prepare_usable_dataset(dataset, features = None, months = None):
+    
+    '''
+        Returns weather data only with recorded total percent cloud coverages 
+        - Drops feature "datetime_cpy" 
+        
+        Arguments:
+            features - (Optional) If provided, will provide dataset with selected features
+            months - (Optional) If provided, will query all days from listed months.
+    '''
+    
+    #Removing non recorded cloud coverages
+    mask = (dataset.datetime_cpy.dt.month.isin(months) & (dataset['total_cloud_coverage_pct'] > -1)) if months else (dataset['total_cloud_coverage_pct'] > -1)
+    #if not months:
+    dataset = dataset.loc[mask] #Import full dataset
+    #else:
+        #dataset =  dataset.loc[dataset.datetime_cpy.dt.month.isin(months) & (dataset['total_cloud_coverage_pct'] > -1)] #Import selected months
+    
+    if features:
+        dataset = pd.concat([dataset[features], dataset[['total_cloud_coverage_pct']]], axis=1)
+    
+    #Rescaling total_cloud_coverage_pct to percent values
+    #dataset['total_cloud_coverage_pct'] = dataset['total_cloud_coverage_pct'] / 100
+    dataset['total_cloud_coverage_pct'] = dataset['total_cloud_coverage_pct'] / 100
+    
+    #Drop datetime column if present
+    if 'datetime_cpy' in dataset.columns:
+        dataset = dataset.drop(['datetime_cpy'], axis=1)
 
-def series_to_supervised_custom(data, n_in=1, n_out=PRED_TIME_INTERVALS_MINS, dropnan=True):
-	"""
-	Frame a time series as a supervised learning dataset.
-	Arguments:
-		data: Sequence of observations as a list or NumPy array.
-		n_in: Number of lag observations as input (X).
-		n_out: Array of ith Number of observations as output (y).
-		dropnan: Boolean whether or not to drop rows with NaN values.
-	Returns:
-		Pandas DataFrame of series framed for supervised learning.
-	"""
-	n_vars = 1 if type(data) is list else data.shape[1]
-	df = pd.DataFrame(data)
-	cols, names = list(), list()
-	# input sequence (t-n, ... t-1)
-	for i in range(n_in, 0, -1):
-		cols.append(df.shift(i))
-		names += [('var%d(t-%d)' % (j+1, i)) for j in range(n_vars)]
-	# forecast sequence (t, t+1, ... t+n)
-	for i in n_out:
-		cols.append(df.shift(-i))
-		if i == 0:
-			names += [('var%d(t)' % (j+1)) for j in range(n_vars)]
-		else:
-			names += [('var%d(t+%d)' % (j+1, i)) for j in range(n_vars)]
-	# put it all together
-	agg = pd.concat(cols, axis=1)
-	agg.columns = names
-	# drop rows with NaN values
-	if dropnan:
-		agg.dropna(inplace=True)
-	return agg
+    return dataset
+
+def __prepare_daywise_chunked_dataset(dataset):
+    '''
+        Returns dictionary with mintue wise recordings per day for initial 8 hours for easy handling.
+        TODO: The 8 hours cap should be changed to varying ranges later.
+        
+        - key : (month,day) dictionary is shuffled randomly with key
+        - value : 
+    '''
+    
+    np.random.seed(EXPERIEMENT_SEED)
+    # map month_daywise mapped dictionary
+    month_day_pairs = __get_month_day_pairing(dataset)
+
+    dataset_chunked = {}
+    min_uptime_duration = np.inf;
+    max_uptime_duration = -np.inf;
+
+    for month, day in month_day_pairs:
+        daily_chunk = dataset.loc[((dataset.index.month == month) & ( dataset.index.day == day)), :].values
+        #TODO: Later Segment active minutes such that only 60 mins spaced time frames are present
+        total_daily_active_minutes = np.shape(daily_chunk)[0]
+        #Using for max 8 hours of data per day to keep other splits simple
+        max_daily_minutes = 8 * 60
+
+        #Segmenting for max 8 hours per day
+        dataset_chunked[(month,day)] = daily_chunk[:max_daily_minutes,:]
+
+        if(total_daily_active_minutes < min_uptime_duration):
+            min_uptime_duration = total_daily_active_minutes
+
+        if(total_daily_active_minutes > max_uptime_duration):
+            max_uptime_duration = total_daily_active_minutes
+
+    print("Shape of a sample day record (8 hours * 60, num_features): {}".format(np.shape(dataset_chunked[next(iter(dataset_chunked))])))
+    print("Min-Max Active Uptime in Hours: (%d,%d)\n" % ((min_uptime_duration // 60) ,(max_uptime_duration // 60)))
+
+    dataset_chunked_arr = list(dataset_chunked.items()) 
+    
+    #Shuffled chunks randomly day wise (Mintues information per day is still intact)
+    np.random.shuffle(dataset_chunked_arr)  
+    dataset_chunked = dict(dataset_chunked_arr)
+    
+    print("First Random Three days: ")
+    for itr, (key, value) in enumerate(dataset_chunked.items()):
+        print(key, end="  ")
+        if itr == 2:
+            break
+    return dataset_chunked
+
+
+def get_train_test_split(dataset, test_ratio=0.09, best_feature_cols = None, months = None):
+    ''' 
+        
+        Returns Training set, Testing set, Training (Month,Day) indexes, Testing (Month,Day) indexes
+        - Drops feature "datetime_cpy" 
+        - Filters weather data with only recorded total cloud percentages
+        
+    '''
+    
+    dataset = prepare_usable_dataset(dataset, best_feature_cols, months)
+    print("Original dataset shape: ", dataset.shape)
+    print("----------------------------------------------------------------")
+    dataset_chuncked = __prepare_daywise_chunked_dataset(dataset)
+    print("\n----------------------------------------------------------------")
+    dataset = np.array([arr for arr in dataset_chuncked.values()])
+    print("Dataset shape after daywise chunks", dataset.shape)
+    print("----------------------------------------------------------------")
+    #Splitting dataset into train test
+    test_size = math.floor(dataset.shape[0] * test_ratio)
+    train, test = dataset[:-test_size,:,:] , dataset[-test_size:,:,:]
+    print("Data shape with reference format: [num_instances, num_time_steps, num_features]")
+    print("Training shape {} , Testing Shape {}".format(train.shape, test.shape))
+    
+    #Get month,day indexes for train test for debugging
+    month_day_wise_indexes = list(dataset_chuncked.keys())
+    train_monthdays, test_monthdays = month_day_wise_indexes[:-test_size], month_day_wise_indexes[-test_size:]
+    
+    return train, test, train_monthdays, test_monthdays
