@@ -1,13 +1,12 @@
 # Cloud Coverage Prediction
 
-## Status
-[x] Basic Exploratory Analysis and handled false records
-[ ] Data Preprocessing (Tabular)
-[ ] Time Series Modelling (Tabular)
-[ ] Model Evaluation
-[ ] Data Preprocessing (Image + Tabular if needed)
-[ ] Time Series Modelling (Image + Tabular)
-[ ] Model Evaluation
+## Project Status
+- [x] Data Preprocessing (Tabular)
+- [ ] Time Series Modelling (Tabular)
+- [ ] Model Evaluation
+- [ ] Data Preprocessing (Image + Tabular if needed)
+- [ ] Time Series Modelling (Image + Tabular)
+- [ ] Model Evaluation
 
 [Download Dataset](https://he-public-data.s3.ap-southeast-1.amazonaws.com/shell_dataset.zip)  
 
