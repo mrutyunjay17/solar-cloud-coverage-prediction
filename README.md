@@ -43,4 +43,4 @@ So the task at hand is to make a model which will be generic throughout the year
 
 ### My Collected Feature Information and References:
 - View [**Documentation**](https://github.com/mrutyunjay17/solar-power-prediction/blob/main/Documentation.md) for more information and references.
-- Thank you **Amol Sonawane**[![Linkedin](https://i.stack.imgur.com/gVE0j.png)](https://www.linkedin.com/in/amol-sonawane-971a07144/) for helping as SME for this project.
+- Thank you **Amol Sonawane**(Solar Proffessional)[![Linkedin](https://i.stack.imgur.com/gVE0j.png)](https://www.linkedin.com/in/amol-sonawane-971a07144/) for helping as SME for this project.
