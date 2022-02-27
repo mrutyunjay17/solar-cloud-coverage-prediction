@@ -1,11 +1,12 @@
 # Cloud Coverage Prediction
 
 ## Project Status
-- [x] Data Preprocessing (Tabular)
-- [ ] Time Series Modelling (Tabular)
+- [x] Exploratory Data Analysis & Handling False Cloud Coverages
+- [ ] Data Preprocessing (Tabular)
+- [ ] Multivariate Multistep Time Series Modelling (Tabular)
 - [ ] Model Evaluation
 - [ ] Data Preprocessing (Image + Tabular if needed)
-- [ ] Time Series Modelling (Image + Tabular)
+- [ ] Multivariate Multistep Time Series Modelling (Image + Tabular)
 - [ ] Model Evaluation
 
 [Download Dataset](https://he-public-data.s3.ap-southeast-1.amazonaws.com/shell_dataset.zip)  
