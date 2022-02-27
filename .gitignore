@@ -18,3 +18,7 @@ models/*
 .ipynb_checkpoints/experiment_quick-checkpoint.ipynb
 .ipynb_checkpoints/experiment_full-checkpoint.ipynb
 .ipynb_checkpoints/experiment_quick2-checkpoint.ipynb
+.ipynb_checkpoints/exploratory_data_analysis-checkpoint.ipynb
+*.ipynb
+experiment_quick.ipynb
+experiment_quick2.ipynb

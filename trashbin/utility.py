@@ -8,6 +8,8 @@ DEFAULT_PATH_FOLDER_TRAINING = os.path.join(DEFAULT_PATH_FOLDER_DATASET,"train")
 PRED_TIME_INTERVALS_MINS = [10, 20, 30]
 EXPERIEMENT_SEED = 42
 
+FINAL_PRED_COLUMNS = ["30_min_horizon", "60_min_horizon", "90_min_horizon", "120_min_horizon"]
+
 CUSTOM_FEATURE_NAMES = {
     'DATE (MM/DD)':'date',
     'MST':'time',  
@@ -66,7 +68,7 @@ def __replace_false_cloud_coverage_with_previous(weather_df):
                                                 .ffill().astype(int)
     return weather_df
 
-def get_processed_dataset(weather_df = None, folder_path = DEFAULT_PATH_FOLDER_TRAINING, csv_dataset_name = "train.csv"):
+def get_processed_dataset(weather_df = pd.DataFrame(), folder_path = DEFAULT_PATH_FOLDER_TRAINING, csv_dataset_name = "train.csv"):
     
     '''
         Returns pre-processed weather datset with 
@@ -83,7 +85,7 @@ def get_processed_dataset(weather_df = None, folder_path = DEFAULT_PATH_FOLDER_T
             Pandas Dataframe with indexed with datetime 
     '''
     
-    if(weather_df == None):
+    if(weather_df.empty):
         weather_df = __load_dataset(folder_path, csv_dataset_name)
     
     #Renames according to default column names
@@ -124,8 +126,8 @@ def prepare_usable_dataset(dataset, features = None, months = None):
         dataset = pd.concat([dataset[features], dataset[['total_cloud_coverage_pct']]], axis=1)
     
     #Rescaling total_cloud_coverage_pct to percent values
-    #dataset['total_cloud_coverage_pct'] = dataset['total_cloud_coverage_pct'] / 100
     dataset['total_cloud_coverage_pct'] = dataset['total_cloud_coverage_pct'] / 100
+    #dataset['total_cloud_coverage_pct'] = dataset['total_cloud_coverage_pct']
     
     #Drop datetime column if present
     if 'datetime_cpy' in dataset.columns:
@@ -187,6 +189,9 @@ def get_train_test_split(dataset, test_ratio=0.09, best_feature_cols = None, mon
     ''' 
         
         Returns Training set, Testing set, Training (Month,Day) indexes, Testing (Month,Day) indexes
+        
+        Make sure to import dataset through \033[1m"utility.get_processed_dataset()"\033[0m method or similar formatting.
+        
         - Drops feature "datetime_cpy" 
         - Filters weather data with only recorded total cloud percentages
         

@@ -34,17 +34,11 @@ The metric to evaluate the perfromance of solution will be MAD (Mean Absolute De
 > score = max(0, 100- MAD(actual, predicted))
 > ```  
 
-### Submission
+### Predict
 - Percentage of total cloud cover estimated in the next 30 minutes
 - Percentage of total cloud cover estimated in the next 60 minutes
 - Percentage of total cloud cover estimated in the next 90 minutes
-- Percentage of total cloud cover estimated in the next 120 minutes
+- Percentage of total cloud cover estimated in the next 120 minutes 
 
-##### Submission Notes:
-- The evaluation criteria is based on the Mean Absolute Deviation of your predictions from the actual outcome.
-- You will have to upload your output on the problem page in a .csv file.
-- The output format will have five columns – scenario_set, 30_min_horizon, 60_min_horizon, 90_min_horizon and 120_min_horizon.  
-- The first row of the csv file should be column names followed by 300 rows of predictions for percentage of total cloud cover for 300 scenario sets provided.  - You will not have to submit your code files. A sample submission csv file has been provided for guidance.  
-
-### References
+### My Collected Feature Information and References from the Internet
 View [**Documentation**](https://github.com/mrutyunjay17/solar-power-prediction/blob/main/Documentation.md) for more information and references.
